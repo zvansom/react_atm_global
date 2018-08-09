@@ -20,8 +20,6 @@ In the end, your solution will look like this:
 
 - The code that's running is in the `/src` directory - that's what you need to change!
 
-- The `/solution_src` directory is just that - the solution - don't look before giving this your best shot!
-
 You can do the below tasks in any order you'd like.
 
 ---------
@@ -52,9 +50,3 @@ Functionality to withdraw money is quite similar to functionality for depositing
 <summary>Stuck on limiting negative numbers? Here's a hint:</summary>
 When a function checks if the input is a number (with <code>isNaN</code>), an <code>||</code> condition could be added to be sure the input is not less than 0.
 </details>
-
---------
-
-## Solution
-
-Solution code is provided in the `solution_src` folder of this repository. Please give this your best go before looking!
