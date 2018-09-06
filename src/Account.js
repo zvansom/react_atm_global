@@ -5,42 +5,46 @@ export default class Account extends Component {
     super(props);
 
     this.state = {
-      withdraw: '',
-      deposit: '',
+      amount: '',
       balance: 0
     }
 
   }
 
+  // TODO: Refactor click handlers to shared method
   handleDepositClick = (e) => {
     e.preventDefault();
     console.log(this);
-    if (isNaN(this.state.deposit)) {
+    if (isNaN(this.state.amount)) {
       console.log("Not a number");
     }
     else {
-      let amount = +Number(this.state.deposit);
+      let amount = +Number(this.state.amount);
       let newBalance = this.state.balance + amount;
       this.setState({
         balance: newBalance,
-        deposit: ''
+        amount: ''
       })
     }
   }
 
   handleWithdrawClick = (e) => {
     e.preventDefault();
-    if (isNaN(this.state.withdraw)) {
+    if (isNaN(this.state.amount)) {
       console.log("Not a number");
+    } else if (this.state.amount > this.state.balance) {
+      console.log("Insufficient Funds")
     }
     else {
-      let amount = +Number(this.state.withdraw);
+      let amount = +Number(this.state.amount);
       let newBalance = this.state.balance - amount;
       this.setState({
         balance: newBalance,
-        withdraw: ''
       })
     }
+    this.setState({
+      amount: ''      
+    })
   }
 
   handleChange = (e) => {
@@ -55,13 +59,14 @@ export default class Account extends Component {
       balanceClass += ' zero';
     }
 
+    // TODO: Change inputs to Forms
+    // TODO: Refactor form into new React component
     return (
       <div className="account">
         <h2>{this.props.name}</h2>
         <div className={balanceClass}>${this.state.balance}</div>
-        <input type="text" name="deposit" placeholder="enter an amount" onChange={this.handleChange} value={this.state.deposit}/>
+        <input type="text" name="amount" placeholder="enter an amount" onChange={this.handleChange} value={this.state.amount}/>
         <input type="button" value="Deposit" onClick={this.handleDepositClick} />
-        <input type="text" name="withdraw" placeholder="enter an amount" onChange={this.handleChange} value={this.state.withdraw}/>
         <input type="button" value="Withdraw" onClick={this.handleWithdrawClick} />
       </div>
     )
