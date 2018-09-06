@@ -5,25 +5,48 @@ export default class Account extends Component {
     super(props);
 
     this.state = {
+      withdraw: '',
+      deposit: '',
       balance: 0
     }
 
-    this.handleDepositClick = this.handleDepositClick.bind(this)
   }
 
-  handleDepositClick(e) {
+  handleDepositClick = (e) => {
     e.preventDefault();
-    if (isNaN(this.refs.amount.value)) {
+    console.log(this);
+    if (isNaN(this.state.deposit)) {
       console.log("Not a number");
     }
     else {
-      let amount = +this.refs.amount.value;
+      let amount = +Number(this.state.deposit);
       let newBalance = this.state.balance + amount;
       this.setState({
-        balance: newBalance
+        balance: newBalance,
+        deposit: ''
       })
-      this.refs.amount.value = '';
     }
+  }
+
+  handleWithdrawClick = (e) => {
+    e.preventDefault();
+    if (isNaN(this.state.withdraw)) {
+      console.log("Not a number");
+    }
+    else {
+      let amount = +Number(this.state.withdraw);
+      let newBalance = this.state.balance - amount;
+      this.setState({
+        balance: newBalance,
+        withdraw: ''
+      })
+    }
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {
@@ -36,8 +59,10 @@ export default class Account extends Component {
       <div className="account">
         <h2>{this.props.name}</h2>
         <div className={balanceClass}>${this.state.balance}</div>
-        <input type="text" placeholder="enter an amount" ref="amount" />
+        <input type="text" name="deposit" placeholder="enter an amount" onChange={this.handleChange} value={this.state.deposit}/>
         <input type="button" value="Deposit" onClick={this.handleDepositClick} />
+        <input type="text" name="withdraw" placeholder="enter an amount" onChange={this.handleChange} value={this.state.withdraw}/>
+        <input type="button" value="Withdraw" onClick={this.handleWithdrawClick} />
       </div>
     )
   }
