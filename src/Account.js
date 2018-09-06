@@ -14,9 +14,8 @@ export default class Account extends Component {
   // TODO: Refactor click handlers to shared method
   handleDepositClick = (e) => {
     e.preventDefault();
-    console.log(this);
-    if (isNaN(this.state.amount)) {
-      console.log("Not a number");
+    if (isNaN(this.state.amount) || this.state.amount < 0) {
+      console.log("Not a valid number");
     }
     else {
       let amount = +Number(this.state.amount);
@@ -30,14 +29,14 @@ export default class Account extends Component {
 
   handleWithdrawClick = (e) => {
     e.preventDefault();
-    if (isNaN(this.state.amount)) {
-      console.log("Not a number");
-    } else if (this.state.amount > this.state.balance) {
+    if (isNaN(this.state.amount) || this.state.amount < 0) {
+      console.log("Not a valid number");
+    } else if (Math.abs(this.state.amount) > this.state.balance) {
       console.log("Insufficient Funds")
     }
     else {
       let amount = +Number(this.state.amount);
-      let newBalance = this.state.balance - amount;
+      let newBalance = this.state.balance - Math.abs(amount);
       this.setState({
         balance: newBalance,
       })
