@@ -1,42 +1,20 @@
 import React, { Component } from 'react';
 
 export default class Account extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      amount: '',
-      balance: 0
-    }
-
+  state = {
+    amount: '',
+    balance: 0
   }
 
-  // TODO: Refactor click handlers to shared method
-  handleDepositClick = (e) => {
+  handleClick = (e) => {
     e.preventDefault();
-    if (isNaN(this.state.amount) || this.state.amount < 0) {
-      console.log("Not a valid number");
-    }
-    else {
-      let amount = +Number(this.state.amount);
-      let newBalance = this.state.balance + amount;
-      this.setState({
-        balance: newBalance,
-        amount: ''
-      })
-    }
-  }
-
-  handleWithdrawClick = (e) => {
-    e.preventDefault();
-    if (isNaN(this.state.amount) || this.state.amount < 0) {
-      console.log("Not a valid number");
-    } else if (this.state.amount > this.state.balance) {
+    // TODO: Find a better way to display Insufficient Funds message to user.
+    if( e.target.value === 'withdraw' && Number(this.state.amount) > this.state.balance ) {
       console.log("Insufficient Funds")
-    }
-    else {
-      let amount = +Number(this.state.amount);
-      let newBalance = this.state.balance - amount;
+    } else {
+      let amount = Number(this.state.amount);
+      if( e.target.value === 'withdraw') { amount = -amount; }
+      const newBalance = this.state.balance + amount;
       this.setState({
         balance: newBalance,
       })
@@ -44,15 +22,7 @@ export default class Account extends Component {
     this.setState({
       amount: ''      
     })
-  }
-
-  handleClick = (e) => {
-    e.preventDefault();
-    if( e.target.value === 'withdraw' && Number(this.state.amount) > this.state.balance ) {
-      console.log("Insufficient Funds")
-    } else {
-
-    }
+    
   }
 
   handleChange = (e) => {
@@ -76,8 +46,8 @@ export default class Account extends Component {
         <h2>{this.props.name}</h2>
         <div className={balanceClass}>${this.state.balance}</div>
         <input type="text" placeholder="enter an amount" onChange={this.handleChange} value={this.state.amount}/>
-        <input type="button" value="deposit" onClick={this.handleDepositClick} />
-        <input type="button" value="withdraw" onClick={this.handleWithdrawClick} />
+        <input type="button" value="deposit" onClick={this.handleClick} />
+        <input type="button" value="withdraw" onClick={this.handleClick} />
       </div>
     )
   }
